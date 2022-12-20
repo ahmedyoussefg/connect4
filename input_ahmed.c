@@ -84,7 +84,7 @@ int main()
     free(path);
 }
 
-void getParameters(char[] strline, int[] parameters)
+void getParameters(char strline[], int parameters[])
 {
     lowercase(strline);
     // for each parameter
