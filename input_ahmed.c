@@ -115,7 +115,7 @@ void getParameters(char strline[], long parameters[], int k)
     // if the words "height/width/high scores" aren't mentioned in the config we will use the order "Height -> Width -> HighScore"
     {
         getInt(strline, parameters, k);
-        k++;
+        k++; // k++
     }  
 }
 void getInt(char strline[], long parameters[], int index) // function extracts integer from string
