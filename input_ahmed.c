@@ -23,6 +23,8 @@ void lowercase(char * word)
     }
 }
 
+void getParameters(char[] strline, int[] parameters);
+
 int main()
 {
     char * path = malloc(PATH_MAX);
@@ -60,7 +62,7 @@ int main()
         }
     } while (1);
     int height, width, highscores;
-    char line[500];
+    char strline[500];
     if (counter == 3)
     {
         width = 7;
@@ -71,27 +73,23 @@ int main()
     {
         FILE * xml_file = fopen(path, "r");
         int parameters[3]; // for each parameter (Height, width, highscore in that order)
-        while(fgets(line,500, xml_file) != EOF)
+        while(strline != NULL)
         {
+            fscanf(xml_file, "%s%[^\n]%n", strline);
             // for each line
-            getParameters(line, parameters);
         }
 
     }        
-    printf("%s", line);
+    printf("%s", strline);
     free(path);
 }
-void getParameters(char[] line, int[] parameters)
+
+void getParameters(char[] strline, int[] parameters)
 {
-    lowercase(line);
+    lowercase(strline);
     // for each parameter
-    if (strstr(line, "height") != NULL)
+    if (strstr(strline, "height") != NULL)
     {
-            if (isdigit(line)) { 
-        long val = strtol(ptr, &ptr, 10); 
-        printf("%ld\n", val); 
-    } else { 
-        ptr++; 
+        scanf("%*s %d%n", &parameters[0]); 
     } 
-    }
 }
