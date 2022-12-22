@@ -10,7 +10,7 @@ void underscore(int width)
 
 }
 
-void printArray(int height, int width,char board[][width])
+void printArray(int height, int width, char board[][width])
 {
     for (int i = 1; i < width + 1; i++)
     {

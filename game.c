@@ -1,5 +1,6 @@
 #include "types.h"
 #include "output.h"
+#include "ingamemenu.h"
 
 int isFull(int height, int width, char board[][width]) // function to check whether board is full or not, return 1 if full
 {
@@ -20,9 +21,31 @@ int isFull(int height, int width, char board[][width]) // function to check whet
         return 0; // the board is not full
     }
 }
-
-void dotheMove(int move, int height, int width, char board[][width], char symbol) // each move (move is column)
+int isColumnAvaliable(int move, int height, int width, char board[][width]) // move is the column's index
 {
+    if (move == -1) // in-game menu option
+    {
+        return 1;
+    }
+    if (board[0][move] == ' ') // If the top element in the row is empty then the column is avaliable
+    {
+        return 1;
+    }
+    else    // the column is not avaliable
+    {
+        printf("This column is not avaliable!\n");
+        return 0;
+    }
+}
+
+void dotheMove(int move, int height, int width, char board[][width], char symbol, int moves_stack[width * height], int counter, int *undo)
+// move is column's index, counter is for moves_stack
+{
+    if (move == -1) // The player chose to access in-game menu
+    {
+        inGameMenu(move, height, width, board, moves_stack, counter, &*undo);
+        return;
+    }
     for (int i = height - 1 ; i >= 0; i--)
     {
         // if the board place (which is the ith in the desired column) is empty, put the piece in the empty place
@@ -36,11 +59,16 @@ void dotheMove(int move, int height, int width, char board[][width], char symbol
 
 void playVSHuman(int height, int width, char board[][width], player p1, player p2, player computer) // play
 {
-    int move;
+    int move; // move of the player each turn
+    int moves_stack[width * height]; // Array has all moves "columns" of the game  (of both players)
+    int moves_count = 0; // number of moves
+    memset(moves_stack, -1, sizeof(moves_stack)); // Initializing the moves stack to negative ones
     int full; // variable to check if board is full or not
-    int checkeven = 0;
+    int checkeven = 0; // to check if it's player's one turn or player two's turn
     char symbol; // symbol played
     int printed_number; // number printed
+    printArray(height,width,board);    // print board (empty)
+    int undo = 0;  // check if the user made undo
     while(full == 0)
     {
         if (checkeven % 2 == 0) // even
@@ -55,13 +83,31 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
             symbol = p2.symbol;
             printed_number = p2.id;
         }
+
+        printf("To access in-game menu -> Enter zero\n");        
+
         do
         {
-            printf("Player %d turn...\nEnter Column: \n", printed_number);
+            printf("Player %d turn...\nEnter Column: ", printed_number);
             scanf("%d", &move);
-        } while(move > width + 1 || move < 1); 
-        dotheMove(move - 1, height, width, board, symbol); // (move - 1) is the chosen column's index
+        } while(move > width + 1 || move < 0 || (!isColumnAvaliable(move - 1, height, width, board)));
+
+        dotheMove(move - 1, height, width, board, symbol, moves_stack, moves_count, &undo); // (move - 1) is the chosen column's index
+        
+        if (move != 0)
+        {
+            moves_count++;
+            moves_stack[moves_count] = move - 1;
+        }
+        if (undo == 1) // if the user made undo:
+        {
+            moves_stack[moves_count] = -1; // pop last move from the stack 
+            moves_count--;  // decrease move count by one
+        }
+        undo = 0;
+
         printArray(height,width,board);    // print board
+
         full = isFull(height, width, board);
         if (full == 1) // if board is full
         {
@@ -77,7 +123,6 @@ void chooseMode(int game_mode, int height,int width, char board[][width], player
     {
         case 1:
             playVSHuman(height, width, board, p1, p2, computer);
-            printArray(height,width,board);    // print board (empty)
             break;
         case 2:
 

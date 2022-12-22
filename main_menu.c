@@ -3,7 +3,7 @@
 
 void printMainMenu()
 {
-    printf("1. Start a new game\n2. Load a game\n3. Top Player\n4. Quit\n");
+    printf("1. Start a new game\n2. Load a game\n3. Top Players\n4. Quit\n");
 }
 void chooseOption(int option, int height, int width, char board[][width], player p1, player p2, player computer)
 {
@@ -29,7 +29,7 @@ void chooseOption(int option, int height, int width, char board[][width], player
 
             break;
         default:
-            //exit(0);
+            exit(0);
             break;
     }
 }
