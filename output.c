@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <windows.h>
+#include "types.h"
 
 void underscore(int width)
 {

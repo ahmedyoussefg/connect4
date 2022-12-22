@@ -1,12 +1,4 @@
-
-                parameters[0] = strtol(ptr, &ptr, 10);
-                printf("%ld\n", parameters[i]);
-                i++;
-            }
-            else
-            {
-                ptr++;
-            }
-        }
-    } 
-}
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <windows.h>

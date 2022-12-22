@@ -2,6 +2,11 @@
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "stdio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "game.h": "c",
+        "main_menu.h": "c",
+        "output.h": "c",
+        "string.h": "c",
+        "types.h": "c"
     }
 }
