@@ -16,7 +16,7 @@ void undoOrRedo(int move, int height, int width, char board[][width], int moves_
     }
     else if (undo_redo == 0) // redo
     {
-        for (int i = 0; i < *counter - 1; i++) // to get the row index
+        for (int i = 0; i < *counter; i++) // to get the row index
         {
             if (moves_stack[i] == redos_stack[*count_redos - 1]) 
             {
@@ -26,6 +26,8 @@ void undoOrRedo(int move, int height, int width, char board[][width], int moves_
         if (*count_redos == 0)
         {
             printf("Can't Redo!\n");
+            *undo = 3;
+            system("PAUSE"); // pause command line interface
             return;
         }
         *counter = *counter + 1;

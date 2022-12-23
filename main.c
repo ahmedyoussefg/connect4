@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include <time.h>
 
 #include "types.h"
 #include "output.h"
@@ -32,6 +33,5 @@ int main()
     p1.symbol = 'X'; //  assumption: player 1 is X
     p2.symbol = 'O'; //              player 2 is O
     chooseOption(option, height, width, board, p1, p2, computer);
-    //printArray(height,width,board);
     return 0;
 }

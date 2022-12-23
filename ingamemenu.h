@@ -22,7 +22,7 @@ void undoOrRedo(int move, int height, int width, char board[][width], int moves_
 /// @param board  The board of the game 
 /// @param moves_stack The array contains all moves since the start of the game
 /// @param counter The number of elements in the moves_stack currently
-/// @param undo // Variable checks whether the user made undo or no
+/// @param undo    checks if the player made undo or not at that move, 1 if undo, 2 if redo, 3 at redo error
 /// @param redos_stack  sends the stack of redos
 /// @param count_redos  sends the count of undos in redos 
 void inGameMenu(int move, int height, int width, char board[][width], int moves_stack[width * height], int *counter, int *undo, int redos_stack[], int *count_redos);
