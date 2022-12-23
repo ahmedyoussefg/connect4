@@ -16,7 +16,7 @@ void chooseOption(int option, int height, int width, char board[][width], player
                 printf("- Choose game mode:\n1. VS Human\n2. VS Computer\n");
                 printf("Enter Option: ");
                 scanf("%d", &game_mode);
-                while(getc(stdin) != '\n');
+                while(getc(stdin) != '\n'); // to remove the buffer
             } while(game_mode <= 0 || game_mode > 2);
             chooseMode(game_mode, height, width, board, p1, p2, computer);
             break;

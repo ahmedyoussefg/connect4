@@ -67,6 +67,7 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
     int checkeven = 0; // to check if it's player's one turn or player two's turn
     char symbol; // symbol played
     int printed_number; // number printed
+    system("cls"); // clear the commandline interface
     printArray(height,width,board);    // print board (empty)
     int undo = 0;  // check if the user made undo
     while(full == 0)
@@ -90,10 +91,13 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
         {
             printf("Player %d turn...\nEnter Column: ", printed_number);
             scanf("%d", &move);
+        
+            while(getc(stdin) != '\n');         // remove the buffer
+        
         } while(move > width + 1 || move < 0 || (!isColumnAvaliable(move - 1, height, width, board)));
 
         dotheMove(move - 1, height, width, board, symbol, moves_stack, moves_count, &undo); // (move - 1) is the chosen column's index
-        
+        system("cls"); // clear the command line interface
         if (move != 0)
         {
             moves_count++;

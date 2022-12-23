@@ -25,6 +25,9 @@ int isColumnAvaliable(int move, int height, int width, char board[][width]);
 /// @param width  The width of the board
 /// @param board  The board of the game 
 /// @param symbol Player's symbol to be added inside the board's column
+/// @param moves_stack[] sends the stack of all moves played till now
+/// @param counter sends the moves count up untill that move
+/// @param undo    checks if the player made undo or not at that move
 void dotheMove(int move, int height, int width, char board[][width], char symbol, int moves_stack[width * height], int counter, int *undo);
 
 /// @brief        Function that deals with player's moves each turn 

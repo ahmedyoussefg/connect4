@@ -18,6 +18,7 @@ void printArray(int height, int width, char board[][width])
     }
     printf("\n");
     underscore(width);
+    SetConsoleOutputCP(CP_UTF8); // for the │ symbol
     for (int i = 0; i < height; i++) // for each row
     {
         printf("│");

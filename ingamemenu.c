@@ -30,27 +30,28 @@ void inGameMenu(int move, int height, int width, char board[][width], int moves_
 {
     int option2;
     int undo_redo; //  = 1 -> option undo , = 0 -> option redo
-    printf("1. Undo\n2. Redo\n3. Save\n4. Load\n5. Quit\n");
+    printf("1. Undo\n2. Redo\n3. Save\n4. Quit\n");
     do
     {
+
         printf("Enter Option: ");
         scanf("%d", &option2);
-    } while (option2 > 5 || option2 < 0);
+        while(getc(stdin) != '\n');         // remove the buffer
+
+    } while (option2 > 4 || option2 < 0);
     
     switch (option2)
     {
-        case 1:
+        case 1: // undo
             undoOrRedo(move, height, width, board, moves_stack, counter, &*undo, 1); // undo_redo = 1;
             break;
-        case 2:
-
+        case 2: // redo
             undoOrRedo(move, height, width, board, moves_stack, counter, &*undo, 0); // undo_redo = 0;
             break;
-        case 3:
+        case 3: // save
             break;
-        case 4:
-            break;
-        case 5:
+        case 4: // exit
+            exit(0);
             break;
         default:
             break;
