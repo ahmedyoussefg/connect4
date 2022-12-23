@@ -38,12 +38,12 @@ int isColumnAvaliable(int move, int height, int width, char board[][width]) // m
     }
 }
 
-void dotheMove(int move, int height, int width, char board[][width], char symbol, int moves_stack[width * height], int counter, int *undo)
+void dotheMove(int move, int height, int width, char board[][width], char symbol, int moves_stack[width * height], int *counter, int *undo, int redos_stack[], int *count_redos)
 // move is column's index, counter is for moves_stack
 {
     if (move == -1) // The player chose to access in-game menu
     {
-        inGameMenu(move, height, width, board, moves_stack, counter, &*undo);
+        inGameMenu(move, height, width, board, moves_stack, &*counter, &*undo, redos_stack, &*count_redos);
         return;
     }
     for (int i = height - 1 ; i >= 0; i--)
@@ -67,9 +67,12 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
     int checkeven = 0; // to check if it's player's one turn or player two's turn
     char symbol; // symbol played
     int printed_number; // number printed
-    system("cls"); // clear the commandline interface
+    //system("cls"); // clear the commandline interface
     printArray(height,width,board);    // print board (empty)
     int undo = 0;  // check if the user made undo
+    int redos_stack[width*height]; // all undos are in the redos_stack
+    memset(redos_stack, -1, sizeof(redos_stack)); // set all stack to -1
+    int count_redos = 0; // counter for redos
     while(full == 0)
     {
         if (checkeven % 2 == 0) // even
@@ -96,17 +99,29 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
         
         } while(move > width + 1 || move < 0 || (!isColumnAvaliable(move - 1, height, width, board)));
 
-        dotheMove(move - 1, height, width, board, symbol, moves_stack, moves_count, &undo); // (move - 1) is the chosen column's index
-        system("cls"); // clear the command line interface
+        dotheMove(move - 1, height, width, board, symbol, moves_stack, &moves_count, &undo, redos_stack, &count_redos); // (move - 1) is the chosen column's index
+        //system("cls"); // clear the command line interface
         if (move != 0)
         {
-            moves_count++;
             moves_stack[moves_count] = move - 1;
+            moves_count++;
         }
         if (undo == 1) // if the user made undo:
         {
-            moves_stack[moves_count] = -1; // pop last move from the stack 
+            redos_stack[count_redos] = moves_stack[moves_count - 1]; // push the last undo - ed move to redos_stack
+            count_redos++;                                          // increase redo count by one
             moves_count--;  // decrease move count by one
+            moves_stack[moves_count] = -1; // pop last move from the stack 
+        }
+        else if (undo != 2) // if the user didn't make redo nor undo
+        {
+            count_redos = 0; // set count to zero
+            memset(redos_stack, -1, sizeof(redos_stack)); // set all stack to -1
+        }
+        else if (undo == 2) // if the user made redo
+        {
+            redos_stack[count_redos - 1] = -1; // the used redos_stack element is set to -1 again
+            count_redos--; // decrease count by one
         }
         undo = 0;
 
