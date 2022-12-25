@@ -1,6 +1,7 @@
 #include "types.h"
 #include "output.h"
 #include "ingamemenu.h"
+#include "Scores_and_AI.h"
 
 int isFull(int height, int width, char board[][width]) // function to check whether board is full or not, return 1 if full
 {
@@ -81,23 +82,27 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
     int redos_stack[width*height]; // all undos are in the redos_stack
     memset(redos_stack, -1, sizeof(redos_stack)); // set all stack to -1
     int count_redos = 0; // counter for redos
-    
+    p1.score = 0;
+    p2.score = 0;
+    int score = 0;
     while(full == 0)
     {
         if (checkeven % 2 == 0) // even
         {
             // therefore it's player one's turn
             symbol = p1.symbol;
+            score = p1.score;
             printed_number = p1.id;
         }
         else
         {
             // therefore it's player two's turn
             symbol = p2.symbol;
+            score = p2.score;
             printed_number = p2.id;
         }
 
-        printf("To access in-game menu -> Enter zero\n");        
+        printf("To access in-game menu (Undo/Redo/Save/Quit) -> Enter zero\n");        
 
         do
         {
@@ -106,7 +111,7 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
         
             while(getc(stdin) != '\n');         // remove the buffer
         
-        } while(move > width + 1 || move < 0 || (!isColumnAvaliable(move - 1, height, width, board)));
+        } while(move > width || move < 0 || (!isColumnAvaliable(move - 1, height, width, board)));
 
         dotheMove(move - 1, height, width, board, symbol, moves_stack, &moves_count, &undo, redos_stack, &count_redos); // (move - 1) is the chosen column's index
         system("cls"); // clear the command line interface
@@ -118,6 +123,14 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
         if (undo == 1) // if the user made undo:
         {
             redos_stack[count_redos] = moves_stack[moves_count - 1]; // push the last undo - ed move to redos_stack
+            if (printed_number == 1)
+            {
+                isConnect4(height, width, board, moves_stack[moves_count - 1], &p2.score, moves_stack, moves_count, 'O', 1); // to_undo = 1
+            }
+            else
+            {
+                isConnect4(height, width, board, moves_stack[moves_count - 1], &p1.score, moves_stack, moves_count, 'X', 1); // to_undo = 1
+            }
             count_redos++;                                          // increase redo count by one
             moves_count--;  // decrease move count by one
             moves_stack[moves_count] = -1; // pop last move from the stack 
@@ -130,11 +143,16 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
         {
             count_redos = 0; // set count to zero
             memset(redos_stack, -1, sizeof(redos_stack)); // set all stack to -1
+            isConnect4(height, width, board, move - 1, &score, moves_stack, moves_count, symbol, 0); // checks if the move caused
+                                                                         // scoring points, then edits the score to higher value
         }
         else if (undo == 2) // if the user made redo
         {
+            isConnect4(height, width, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, symbol, 0); 
+            // checks if the redo-ed move caused points increase
             redos_stack[count_redos - 1] = -1; // the used redos_stack element is set to -1 again
             count_redos--; // decrease count by one
+
         }
         undo = 0;
 
@@ -153,6 +171,18 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
         hours = time_taken / 3600;
         printf("Time = %02d : %02d : %02d [HH:MM:SS]\n", hours, minutes, seconds); 
 
+        printf("Number Of Moves Played = %d\n", moves_count);
+        if (printed_number == 1)
+        {
+            // update player one's score
+            p1.score = score;
+        }
+        else
+        {
+            // update player two's score
+            p2.score = score;
+        }
+        printf("Player %d's score = %d\tPlayer %d's score = %d\n", p1.id, p1.score, p2.id, p2.score);
         checkeven++; // increase checkeven by one
     }
 }
