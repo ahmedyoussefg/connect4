@@ -30,7 +30,7 @@ int isColumnAvaliable(int move, int height, int width, char board[][width]);
 /// @param undo    checks if the player made undo or not at that move, 1 if undo, 2 if redo, 3 at redo error
 /// @param redos_stack  sends the stack of redos
 /// @param count_redos  sends the count of undos in redos 
-void dotheMove(int move, int height, int width, char board[][width], char symbol, int moves_stack[width * height], int *counter, int *undo, int redos_stack[], int *count_redos);
+void dotheMove(int move, int height, int width, char board[][width], char symbol, int moves_stack[width * height], int *counter, int *undo, int redos_stack[], int *count_redos, int mode);
 
 /// @brief        Function that deals with player's moves each turn 
 ///               and it will be branched to multiple main functions until the game ends
@@ -40,7 +40,7 @@ void dotheMove(int move, int height, int width, char board[][width], char symbol
 /// @param p1     Player One
 /// @param p2     Player Two (if the user chose vs Player mode)
 /// @param computer Computer (if the user chose vs Computer mode)
-void playVSHuman(int height, int width, char board[][width], player p1, player p2, player computer);
+void playVSHuman(int height, int width, char board[][width], player p1, player p2, player computer, int mode);
 
 
 /// @brief Function that branches the player to two functions -> playVSHuman or -> playVSComputer
