@@ -327,6 +327,105 @@ void play(int height, int width, char board[][width], player p1, player p2, play
         reset_color();
         checkeven++; // increase checkeven by one
     }
+    
+    pink_color();
+    printf("Time = %02d : %02d : %02d [HH:MM:SS]\n", hours, minutes, seconds); 
+    reset_color();
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
+    printf("Number Of Moves Of Player One: %d", (moves_count / 2) + (moves_count % 2));
+    reset_color();
+    if (mode == 1)
+    {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
+        printf("\tNumber Of Moves Of Player Two: %d\n", moves_count / 2);
+        reset_color();
+    }
+    else
+    {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), computer.color);
+        printf("\tNumber Of Moves Of Computer: : %d\n", moves_count / 2);
+        reset_color();
+    }
+    if (printed_number == 1)
+    {
+        // update player one's score
+        p1.score = score;
+    }
+    else if (printed_number == 2)
+    {
+        // update player two's score
+        p2.score = score;
+    }
+    else
+    {
+        computer.score = score;
+    }
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
+    printf("Player %d's score = %d", p1.id, p1.score);
+    reset_color();
+    if (mode == 1)
+    {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p2.color);
+        printf("\t\t\tPlayer %d's score = %d\n", p2.id, p2.score);
+    }
+    else if (mode == 2)
+    {
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), computer.color);
+        printf("\t\t\tComputer's score = %d\n", computer.score);
+    }
+    reset_color();
+
+    FILE * highscores_file;
+    highscores_file = fopen("highscores.txt", "a");
+
+    if (mode == 1)
+    {
+        if (p1.score > p2.score)
+        {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);    
+            printf("Player one is the winner!\nPlease, Enter Your Name: ");
+            fgets(p1.name, 256, stdin);
+            fprintf(highscores_file, "%s %d\n", p1.name, p1.score);
+            reset_color();
+        }
+        else if (p2.score > p1.score)
+        {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p2.color);    
+            printf("Player two is the winner!\nPlease, Enter Your Name: ");
+            fgets(p2.name, 256, stdin);
+            fprintf(highscores_file, "%s %d\n", p2.name, p2.score);
+            reset_color();
+        }
+        else
+        {
+            yellow_color();
+            printf("\t\t\t\t\tDraw !\n");
+            reset_color();
+        }
+    }
+    else
+    {
+        if (p1.score > computer.score)
+        {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);    
+            printf("Player one is the winner!\nPlease, Enter Your Name: ");
+            fgets(p1.name, 256, stdin);
+            fprintf(highscores_file, "%s %d\n", p1.name, p1.score);
+            reset_color();
+        }
+        else if (p1.score == computer.score)
+        {
+            yellow_color();
+            printf("\t\t\t\t\tDraw !\n");
+            reset_color();
+        }
+        else
+        {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), computer.color);    
+            printf("Computer is the winner!\n");
+            reset_color();
+        }
+    }
 }
 
 void chooseMode(int game_mode, int height,int width, char board[][width], player p1, player p2, player computer)
