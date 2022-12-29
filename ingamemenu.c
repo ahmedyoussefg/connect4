@@ -103,7 +103,7 @@ void inGameMenu(int move, int height, int width, char board[][width], int moves_
         scanf("%d", &option2);
         while(getc(stdin) != '\n');         // remove the buffer
 
-    } while (option2 > 4 || option2 < 0);
+    } while (option2 > 4 || option2 <= 0);
 
     switch (option2)
     {
