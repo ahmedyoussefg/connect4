@@ -229,8 +229,8 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
             }
             else // computer mode
             {
-                isConnect4(height, width, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, symbol, 0, 2); 
-                isConnect4(height, width, board, redos_stack[count_redos - 2], &computer.score, moves_stack, moves_count, symbol, 0, 2); 
+                isConnect4(height, width, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, 'X', 0, 2); 
+                isConnect4(height, width, board, redos_stack[count_redos - 2], &computer.score, moves_stack, moves_count, 'O', 3, 2); 
 
                 // checks if the redo-ed move caused points increase
                 redos_stack[count_redos - 2] = -1;

@@ -138,7 +138,7 @@ void isConnect4(int height, int width, char board[][width], int move, int *score
 {
     int repeated_moves = 0;
     // To get row's index
-    if (mode == 2 && symbol == 'X' && to_undo == 1)
+    if (mode == 2 && symbol == 'X' && (to_undo == 1 || to_undo == 3))
     {
         for (int i = 0; i < moves_count - 2; i++)
         {
