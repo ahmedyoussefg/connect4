@@ -50,7 +50,6 @@ int main()
     do
     {
         computer.color = rand() % 6 + 1;
-
     } while (computer.color == p1.color);
 
     p1.symbol = 'X'; //  assumption: player 1 is X

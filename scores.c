@@ -99,7 +99,7 @@ int connect4LeftDiagonal(int height, int width, char board[][width], int move, i
     int counter2 = 0;
     int changes = 0;
     int j = 1;
-    for (int i = 1; i < 4 && move + i <= width - 1 && row - j != -1; i++)
+    for (int i = 1; i < 4 && move + i <= width - 1 && row + j != height; i++)
     {
         if (board[row + j][move + i] == symbol)
         {
@@ -114,7 +114,7 @@ int connect4LeftDiagonal(int height, int width, char board[][width], int move, i
 
     j = 1;
     
-    for (int i = move - 1; i > move - 4 && i >= 0 && row + j != height; i--)
+    for (int i = move - 1; i > move - 4 && i >= 0 && row - j != -1; i--)
     {
         if (board[row - j][i] == symbol)
         {

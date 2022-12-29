@@ -35,7 +35,9 @@ int isColumnAvaliable(int move, int height, int width, char board[][width]) // m
     }
     else    // the column is not avaliable
     {
+        red_color();
         printf("This column is not avaliable!\n");
+        reset_color();
         return 0;
     }
 }
@@ -59,7 +61,7 @@ void dotheMove(int move, int height, int width, char board[][width], char symbol
     }
 }
 
-void playVSHuman(int height, int width, char board[][width], player p1, player p2, player computer, int mode) // play
+void play(int height, int width, char board[][width], player p1, player p2, player computer, int mode) // play
 {
     int move; // move of the player each turn
 
@@ -69,21 +71,26 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
     int moves_stack[width * height]; // Array has all moves "columns" of the game  (of both players)
     int moves_count = 0; // number of moves
     memset(moves_stack, -1, sizeof(moves_stack)); // Initializing the moves stack to negative ones
-    
     int full; // variable to check if board is full or not
     int checkeven = 0; // to check if it's player's one turn or player two's turn
     
     char symbol; // symbol played
     int printed_number; // number printed
     
-    //system("cls"); // clear the commandline interface
+    system("cls"); // clear the commandline interface
     if (mode == 1) //player
     {
         printArray(height, width, board, p1, p2);    // print board (empty)
+        yellow_color();
+        printf("Time = 00 : 00 : 00 [HH:MM:SS]\n");
+        reset_color();
     }
     else // computer
     {
         printArray(height, width, board, p1, computer);
+        yellow_color();
+        printf("Time = 00 : 00 : 00 [HH:MM:SS]\n");
+        reset_color();
     }
     int undo = 0;  // check if the user made undo
     int redos_stack[width*height]; // all undos are in the redos_stack
@@ -132,10 +139,21 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
         {
             do
             {
-                printf("To access in-game menu (Undo/Redo/Save/Quit) -> Enter zero\n");        
+                green_color();
+                printf("To access in-game menu (Undo/Redo/Save/Quit) -> Enter zero\n");  
+                reset_color();  
+                if (printed_number == 1)
+                {
+                    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
+                }
+                else
+                {
+                    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p2.color);
+
+                }
                 printf("Player %d turn...\nEnter Column: ", printed_number);
                 scanf("%d", &move);
-            
+                reset_color();
                 while(getc(stdin) != '\n');         // remove the buffer
             
             } while(move > width || move < 0 || (!isColumnAvaliable(move - 1, height, width, board)));
@@ -144,10 +162,12 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
         }
         else
         {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), computer.color);
             printf("Computer's turn..\n");
+            reset_color();
             computersMove(&computer_move_index,height, width, board, symbol);
         }
-        //system("cls"); // clear the command line interface
+        system("cls"); // clear the command line interface
         if (move != 0)
         {
             if (printed_number == 4) 
@@ -229,9 +249,9 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
             }
             else // computer mode
             {
-                isConnect4(height, width, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, 'X', 0, 2); 
-                isConnect4(height, width, board, redos_stack[count_redos - 2], &computer.score, moves_stack, moves_count, 'O', 3, 2); 
-
+                isConnect4(height, width, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, 'X', 3, 2); 
+                // to_undo = 3 to access the player's move
+                isConnect4(height, width, board, redos_stack[count_redos - 2], &computer.score, moves_stack, moves_count, 'O', 0, 2); 
                 // checks if the redo-ed move caused points increase
                 redos_stack[count_redos - 2] = -1;
                 redos_stack[count_redos - 1] = -1; // the used redos_stack element is set to -1 again
@@ -258,9 +278,25 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
         seconds = time_taken % 60;
         minutes = time_taken % 3600 / 60;
         hours = time_taken / 3600;
-        printf("Time = %02d : %02d : %02d [HH:MM:SS]\n", hours, minutes, seconds); 
 
-        printf("Number Of Moves Played = %d\n", moves_count);
+        pink_color();
+        printf("Time = %02d : %02d : %02d [HH:MM:SS]\n", hours, minutes, seconds); 
+        reset_color();
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
+        printf("Number Of Moves Of Player One: %d", (moves_count / 2) + (moves_count % 2));
+        reset_color();
+        if (mode == 1)
+        {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
+            printf("\tNumber Of Moves Of Player Two: %d\n", moves_count / 2);
+            reset_color();
+        }
+        else
+        {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), computer.color);
+            printf("\tNumber Of Moves Of Computer: : %d\n", moves_count / 2);
+            reset_color();
+        }
         if (printed_number == 1)
         {
             // update player one's score
@@ -275,15 +311,20 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
         {
             computer.score = score;
         }
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
         printf("Player %d's score = %d", p1.id, p1.score);
+        reset_color();
         if (mode == 1)
         {
-            printf("\tPlayer %d's score = %d\n", p2.id, p2.score);
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p2.color);
+            printf("\t\t\tPlayer %d's score = %d\n", p2.id, p2.score);
         }
         else if (mode == 2)
         {
-            printf("\tComputer's score = %d\n", computer.score);
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), computer.color);
+            printf("\t\t\tComputer's score = %d\n", computer.score);
         }
+        reset_color();
         checkeven++; // increase checkeven by one
     }
 }
@@ -293,10 +334,10 @@ void chooseMode(int game_mode, int height,int width, char board[][width], player
     switch (game_mode)
     {
         case 1:
-            playVSHuman(height, width, board, p1, p2, computer, 1);  // int mode = 1, = vs player mode
+            play(height, width, board, p1, p2, computer, 1);  // int mode = 1, = vs player mode
             break;
         case 2:
-            playVSHuman(height, width, board, p1, p2, computer, 2); // int mode = 2, = computer mode 
+            play(height, width, board, p1, p2, computer, 2); // int mode = 2, = computer mode 
             break;
         default:
             break;

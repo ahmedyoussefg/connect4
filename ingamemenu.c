@@ -35,7 +35,9 @@ void undoOrRedo(int move, int height, int width, char board[][width], int moves_
     {
         if (*count_redos == 0)
         {
+            red_color();
             printf("Can't Redo!\n");
+            reset_color();
             *undo = 3;
             system("PAUSE"); // pause command line interface
             return;
@@ -95,12 +97,15 @@ void inGameMenu(int move, int height, int width, char board[][width], int moves_
 {
     int option2;
     int undo_redo; //  = 1 -> option undo , = 0 -> option redo
+    yellow_color();
     printf("1. Undo\n2. Redo\n3. Save\n4. Quit\n");
+    reset_color();
     do
     {
-
+        yellow_color();
         printf("Enter Option: ");
         scanf("%d", &option2);
+        reset_color();
         while(getc(stdin) != '\n');         // remove the buffer
 
     } while (option2 > 4 || option2 <= 0);

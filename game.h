@@ -40,7 +40,7 @@ void dotheMove(int move, int height, int width, char board[][width], char symbol
 /// @param p1     Player One
 /// @param p2     Player Two (if the user chose vs Player mode)
 /// @param computer Computer (if the user chose vs Computer mode)
-void playVSHuman(int height, int width, char board[][width], player p1, player p2, player computer, int mode);
+void play(int height, int width, char board[][width], player p1, player p2, player computer, int mode);
 
 
 /// @brief Function that branches the player to two functions -> playVSHuman or -> playVSComputer
