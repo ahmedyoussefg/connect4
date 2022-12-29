@@ -8,6 +8,8 @@
         "output.h": "c",
         "string.h": "c",
         "types.h": "c",
-        "computer_mode.h": "c"
+        "computer_mode.h": "c",
+        "time.h": "c",
+        "unistd.h": "c"
     }
 }

@@ -134,15 +134,28 @@ int connect4LeftDiagonal(int height, int width, char board[][width], int move, i
     return changes; // changes in score
 }
 
-void isConnect4(int height, int width, char board[][width], int move, int *score, int moves_stack[], int moves_count, char symbol, int to_undo)
+void isConnect4(int height, int width, char board[][width], int move, int *score, int moves_stack[], int moves_count, char symbol, int to_undo, int mode)
 {
     int repeated_moves = 0;
     // To get row's index
-    for (int i = 0; i < moves_count - 1; i++)
+    if (mode == 2 && symbol == 'X' && to_undo == 1)
     {
-        if (moves_stack[i] == moves_stack[moves_count - 1]) 
+        for (int i = 0; i < moves_count - 2; i++)
         {
-            repeated_moves++;
+            if (moves_stack[i] == moves_stack[moves_count - 2]) 
+            {
+                repeated_moves++;
+            }
+        }    
+    }
+    else
+    {
+        for (int i = 0; i < moves_count - 1; i++)
+        {
+            if (moves_stack[i] == moves_stack[moves_count - 1]) 
+            {
+                repeated_moves++;
+            }
         }
     }
     repeated_moves = height - repeated_moves - 1; // row index

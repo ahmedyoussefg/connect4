@@ -65,6 +65,7 @@ int connect4LeftDiagonal(int height, int width, char board[][width], int move, i
 /// @param moves_count count of moves till now
 /// @param symbol      symbol of the player
 /// @param to_undo     if the user made undo, becomes = 1 if the user made undo
-void isConnect4(int height, int width, char board[][width], int move, int *score, int moves_stack[], int moves_count, char symbol, int to_undo);
+/// @param mode the game-mode
+void isConnect4(int height, int width, char board[][width], int move, int *score, int moves_stack[], int moves_count, char symbol, int to_undo, int mode);
 
 #endif

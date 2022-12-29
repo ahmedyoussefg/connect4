@@ -7,7 +7,7 @@ void undoOrRedo(int move, int height, int width, char board[][width], int moves_
     {
         for (int i = 0; i < *counter - 1; i++) // to get the row index
         {
-            if (moves_stack[i] == moves_stack[*counter - 1]) 
+            if (moves_stack[i] == moves_stack[*counter - 1])
             {
                 repeated_moves++;
             }
@@ -42,35 +42,36 @@ void undoOrRedo(int move, int height, int width, char board[][width], int moves_
         }
         if (mode == 2)
         {
-            for (int i = 0; i < *counter - 1; i++) // to get the row index
+            for (int i = 0; i < *counter; i++) // to get the row index
             {
-                if (moves_stack[i] == redos_stack[*count_redos - 1]) 
+                if (moves_stack[i] == redos_stack[*count_redos - 1]) // the player's move
                 {
                     repeated_moves++;
                 }
             }
+            moves_stack[*counter] = redos_stack[*count_redos - 1];
+            *counter += 1;
             for (int i = 0; i < *counter; i++) // to get the row index
             {
-                if (moves_stack[i] == redos_stack[*count_redos - 2]) // the player's move in vs computer mode
+                if (moves_stack[i] == redos_stack[*count_redos - 2]) // the computer's move
                 {
                     repeated_moves2++;
                 }
             }
-            *counter = *counter + 2;
-            moves_stack[*counter - 1] = redos_stack[*count_redos - 2];
-            moves_stack[*counter - 2] = redos_stack[*count_redos - 1];
+            moves_stack[*counter] = redos_stack[*count_redos - 2];
+            *counter += 1;
             *undo = 2; // redo is done
             if (*counter % 2 == 0)
             {
-                board[height - repeated_moves2 - 1][moves_stack[*counter - 1]] = 'O';
                 board[height - repeated_moves - 1][moves_stack[*counter - 2]] = 'X';
+                board[height - repeated_moves2 - 1][moves_stack[*counter - 1]] = 'O';
             }
         }
         else
         {
             for (int i = 0; i < *counter; i++) // to get the row index
             {
-                if (moves_stack[i] == redos_stack[*count_redos - 1]) 
+                if (moves_stack[i] == redos_stack[*count_redos - 1])
                 {
                     repeated_moves++;
                 }
@@ -103,7 +104,7 @@ void inGameMenu(int move, int height, int width, char board[][width], int moves_
         while(getc(stdin) != '\n');         // remove the buffer
 
     } while (option2 > 4 || option2 < 0);
-    
+
     switch (option2)
     {
         case 1: // undo

@@ -1,5 +1,6 @@
 #include "types.h"
 #include "game.h"
+#include "output.h"
 
 void printMainMenu()
 {
@@ -13,8 +14,10 @@ void chooseOption(int option, int height, int width, char board[][width], player
         case 1:
             do
             {
+                yellow_color();
                 printf("- Choose game mode:\n1. VS Human\n2. VS Computer\n");
                 printf("Enter Option: ");
+                reset_color();
                 scanf("%d", &game_mode);
                 while(getc(stdin) != '\n'); // to remove the buffer
             } while(game_mode <= 0 || game_mode > 2);

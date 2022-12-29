@@ -77,8 +77,14 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
     int printed_number; // number printed
     
     //system("cls"); // clear the commandline interface
-    printArray(height, width, board);    // print board (empty)
-    
+    if (mode == 1) //player
+    {
+        printArray(height, width, board, p1, p2);    // print board (empty)
+    }
+    else // computer
+    {
+        printArray(height, width, board, p1, computer);
+    }
     int undo = 0;  // check if the user made undo
     int redos_stack[width*height]; // all undos are in the redos_stack
     memset(redos_stack, -1, sizeof(redos_stack)); // set all stack to -1
@@ -162,6 +168,8 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
                 redos_stack[count_redos] = moves_stack[moves_count - 1]; // push the computer's move to redos stack, after undo
                 redos_stack[++count_redos] = moves_stack[moves_count - 2]; // push player's move to redos stack after undo
                 count_redos++;
+                isConnect4(height, width, board, moves_stack[moves_count - 1], &computer.score, moves_stack, moves_count, 'O', 1, 2);
+                isConnect4(height, width, board, moves_stack[moves_count - 2], &score, moves_stack, moves_count, 'X', 1, 2);
                 moves_stack[moves_count - 1] = -1; // pop last 2 move from the stack
                 moves_stack[moves_count - 2] = -1; 
                 moves_count -= 2; // decrease moves count by 2
@@ -171,11 +179,12 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
                 redos_stack[count_redos] = moves_stack[moves_count - 1]; // push the last undo - ed move to redos_stack
                 if (printed_number == 1)
                 {
-                    isConnect4(height, width, board, moves_stack[moves_count - 1], &p2.score, moves_stack, moves_count, 'O', 1); // to_undo = 1
+                    isConnect4(height, width, board, moves_stack[moves_count - 1], &p2.score, moves_stack, moves_count, 'O', 1, 1);
+                    // to_undo = 1
                 }
                 else if (printed_number == 2)
                 {
-                    isConnect4(height, width, board, moves_stack[moves_count - 1], &p1.score, moves_stack, moves_count, 'X', 1); // to_undo = 1
+                    isConnect4(height, width, board, moves_stack[moves_count - 1], &p1.score, moves_stack, moves_count, 'X', 1, 1); // to_undo = 1
                 }
                 count_redos++;                                          // increase redo count by one
                 moves_count--;  // decrease move count by one
@@ -193,21 +202,36 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
         {
             count_redos = 0; // set count to zero
             memset(redos_stack, -1, sizeof(redos_stack)); // set all stack to -1
-            isConnect4(height, width, board, move - 1, &score, moves_stack, moves_count, symbol, 0); // checks if the move caused
+            if (mode == 1)
+            {
+                isConnect4(height, width, board, move - 1, &score, moves_stack, moves_count, symbol, 0, 1); // checks if the move caused
+                                                                             // scoring points, then edits the score to higher value
+            }
+            else if (mode == 2 && printed_number == 1)
+            {
+                isConnect4(height, width, board, move - 1, &score, moves_stack, moves_count, symbol, 0, 2); // checks if the move caused
                                                                          // scoring points, then edits the score to higher value
+            }
+            else if (mode == 2 && printed_number == 4)
+            {
+                isConnect4(height, width, board, computer_move_index - 1, &score, moves_stack, moves_count, symbol, 0, 2);
+                // checks if the move caused scoring points, then edits the score to higher value
+            }
         }
         else if (undo == 2) // if the user made redo
         {
             if (mode == 1) // player vs player
             {
-                isConnect4(height, width, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, symbol, 0); 
+                isConnect4(height, width, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, symbol, 0, 1); 
                 // checks if the redo-ed move caused points increase
                 redos_stack[count_redos - 1] = -1;
                 count_redos--; // decrease count by one
             }
             else // computer mode
             {
-                isConnect4(height, width, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, symbol, 0); 
+                isConnect4(height, width, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, symbol, 0, 2); 
+                isConnect4(height, width, board, redos_stack[count_redos - 2], &computer.score, moves_stack, moves_count, symbol, 0, 2); 
+
                 // checks if the redo-ed move caused points increase
                 redos_stack[count_redos - 2] = -1;
                 redos_stack[count_redos - 1] = -1; // the used redos_stack element is set to -1 again
@@ -215,9 +239,14 @@ void playVSHuman(int height, int width, char board[][width], player p1, player p
             }
         }
         undo = 0;
-
-        printArray(height,width,board);    // print board
-
+        if (mode == 1) // player
+        {
+            printArray(height, width, board, p1, p2);    // print board
+        }
+        else // computer
+        {
+            printArray(height, width, board, p1, computer);
+        }
         full = isFull(height, width, board);
         if (full == 1) // if board is full
         {
