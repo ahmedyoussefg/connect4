@@ -118,14 +118,18 @@ void printArray(int height, int width, char board[][width], player p1, player p2
             if (board[i][j] == 'X')
             {
                 SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);        
-                printf(" %c ", board[i][j]);
+                printf(" ● ");
+                reset_color();
+            }
+            else if (board[i][j] == 'O')
+            {
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p2.color);
+                printf(" ● ");
                 reset_color();
             }
             else
             {
-                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p2.color);
-                printf(" %c ", board[i][j]);
-                reset_color();
+                printf("   ");
             }
             yellow_color();
             printf("│");
