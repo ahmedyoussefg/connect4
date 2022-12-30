@@ -76,7 +76,7 @@ void play(configurations config, char board[][config.width], player p1, player p
     char symbol; // symbol played
     int printed_number; // number printed
     
-    //system("cls"); // clear the commandline interface
+    system("cls"); // clear the commandline interface
     if (mode == 1) //player
     {
         printArray(config, board, p1, p2);    // print board (empty)
@@ -166,7 +166,7 @@ void play(configurations config, char board[][config.width], player p1, player p
             reset_color();
             computersMove(&computer_move_index, config, board, symbol);
         }
-        //system("cls"); // clear the command line interface
+        system("cls"); // clear the command line interface
         if (move != 0)
         {
             if (printed_number == 4) 
