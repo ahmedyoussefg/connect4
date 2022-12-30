@@ -54,18 +54,22 @@ int isFileCorrupt(configurations * myconfig, FILE * config_file, int *counter)
     char *ptr2_highscores;
 
     ptr1_config = strstr(xml_content, "<configurations>"); // first occurence of the word 'configurations' opening tags
-    ptr2_config = strstr(ptr1_config + 16, "</configurations>");    // after the first occurence of the opening tags
-
+    if (ptr1_config == NULL)
+    {
+        red_color();
+        printf("File Corrupted\n");
+        reset_color();
+        *counter +=1;
+        return 1; // Corrupted
+    }
+    
     ptr1_width = strstr(ptr1_config + 16, "<width>"); // after the configuration opening tags
-    ptr2_width = strstr(ptr1_width + 7, "</width>"); // after the first occurence of the opening tags
 
     ptr1_height = strstr(ptr1_config + 16, "<height>"); // after the configuration opening tags
-    ptr2_height = strstr(ptr1_height + 8, "</height>");  // after the first occurence of the opening tags
 
     ptr1_highscores = strstr(ptr1_config + 16, "<highscores>"); // after the configuration opening tags
-    ptr2_highscores = strstr(ptr1_highscores + 12, "</highscores"); // after the first occurence of the opening tags
 
-    if (ptr1_config == NULL || ptr1_height == NULL || ptr1_highscores == NULL || ptr1_width == NULL)
+    if (ptr1_height == NULL || ptr1_highscores == NULL || ptr1_width == NULL)
     // if any of the opening tags of configurations are not found
     {
         red_color();
@@ -82,6 +86,12 @@ int isFileCorrupt(configurations * myconfig, FILE * config_file, int *counter)
         *counter +=1;
         return 1;
     }
+
+    ptr2_config = strstr(ptr1_config + 16, "</configurations>");    // after the first occurence of the opening tags
+    ptr2_width = strstr(ptr1_width + 7, "</width>"); // after the first occurence of the opening tags
+    ptr2_height = strstr(ptr1_height + 8, "</height>");  // after the first occurence of the opening tags
+    ptr2_highscores = strstr(ptr1_highscores + 12, "</highscores"); // after the first occurence of the opening tags
+
     if (ptr2_config == NULL || ptr2_height == NULL || ptr2_highscores == NULL || ptr2_width == NULL)
     // if any of the closed tags are not found
     {
@@ -106,6 +116,14 @@ int isFileCorrupt(configurations * myconfig, FILE * config_file, int *counter)
         reset_color();
         *counter +=1;
         return 1;
+    }
+    if (ptr2_config > ptr1_config || ptr2_height > ptr1_height || ptr2_width > ptr1_width || ptr2_highscores > ptr1_highscores)
+    {
+        red_color();
+        printf("File Corrupted\n");
+        reset_color();
+        *counter +=1;
+        return 1;   
     }
     if (ptr1_height + 8 == ptr2_height) // There is no number!
     {
@@ -260,6 +278,7 @@ void parseXML(configurations *myconfig, int *counter)
         yellow_color();
         printf("The user did not enter correct path for configurations file.\n");
         printf("Loading default configurations.. (Height = 9, Width = 7, Highscores = 10)\n");
+        system("PAUSE");
         reset_color();
         myconfig->height = 9;
         myconfig->width = 7;
