@@ -1,10 +1,10 @@
-int connect4Horizontally(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, char symbol, int row)
+int connect4Horizontally(configurations config, char board[][config.width], int move, int *score, char symbol, int row)
 {
     int counter1 = 0;
     int counter2 = 0;
     int changes = 0;
 
-    for (int i = 1; i < 4 && move + i <= width - 1; i++)
+    for (int i = 1; i < 4 && move + i <= config.width - 1; i++)
     {
         if (board[row][move + i] == symbol)
         {
@@ -35,11 +35,11 @@ int connect4Horizontally(unsigned long long height, unsigned long long width, ch
     return changes; // changes in score
 }
 
-int connect4Vertically(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, char symbol, int row)
+int connect4Vertically(configurations config, char board[][config.width], int move, int *score, char symbol, int row)
 {
     int changes = 0;
     int counter = 0;
-    for (int i = row + 1; i != height; i++)
+    for (int i = row + 1; i != config.height; i++)
     {
         if (board[i][move] == symbol)
         {
@@ -54,13 +54,13 @@ int connect4Vertically(unsigned long long height, unsigned long long width, char
     return changes;
 }
 
-int connect4RightDiagonal(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, char symbol, int row)
+int connect4RightDiagonal(configurations config, char board[][config.width], int move, int *score, char symbol, int row)
 {
     int counter1 = 0;
     int counter2 = 0;
     int changes = 0;
     int j = 1;
-    for (int i = 1; i < 4 && move + i <= width - 1 && row - j != -1; i++)
+    for (int i = 1; i < 4 && move + i <= config.width - 1 && row - j != -1; i++)
     {
         if (board[row - j][move + i] == symbol)
         {
@@ -73,7 +73,7 @@ int connect4RightDiagonal(unsigned long long height, unsigned long long width, c
         j++;
     }
     j = 1;
-    for (int i = move - 1; i > move - 4 && i >= 0 && row + j != height; i--)
+    for (int i = move - 1; i > move - 4 && i >= 0 && row + j != config.height; i--)
     {
         if (board[row + j][i] == symbol)
         {
@@ -93,13 +93,13 @@ int connect4RightDiagonal(unsigned long long height, unsigned long long width, c
     return changes; // changes in score
 }
 
-int connect4LeftDiagonal(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, char symbol, int row)
+int connect4LeftDiagonal(configurations config, char board[][config.width], int move, int *score, char symbol, int row)
 {
     int counter1 = 0;
     int counter2 = 0;
     int changes = 0;
     int j = 1;
-    for (int i = 1; i < 4 && move + i <= width - 1 && row + j != height; i++)
+    for (int i = 1; i < 4 && move + i <= config.width - 1 && row + j != config.height; i++)
     {
         if (board[row + j][move + i] == symbol)
         {
@@ -134,7 +134,7 @@ int connect4LeftDiagonal(unsigned long long height, unsigned long long width, ch
     return changes; // changes in score
 }
 
-void isConnect4(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, int moves_stack[], int moves_count, char symbol, int to_undo, int mode)
+void isConnect4(configurations config, char board[][config.width], int move, int *score, int moves_stack[], int moves_count, char symbol, int to_undo, int mode)
 {
     int repeated_moves = 0;
     // To get row's index
@@ -158,18 +158,18 @@ void isConnect4(unsigned long long height, unsigned long long width, char board[
             }
         }
     }
-    repeated_moves = height - repeated_moves - 1; // row index
+    repeated_moves = config.height - repeated_moves - 1; // row index
     int changes = 0;
-    changes += connect4Horizontally(height, width, board, move, score, symbol, repeated_moves); 
+    changes += connect4Horizontally(config, board, move, score, symbol, repeated_moves); 
     // checks if the move caused 4 to be connected horizontally
     
-    changes += connect4Vertically(height, width, board, move, score, symbol, repeated_moves); 
+    changes += connect4Vertically(config, board, move, score, symbol, repeated_moves); 
     // checks if the move caused 4 to be connected vertically
 
-    changes += connect4RightDiagonal(height, width, board, move, score, symbol, repeated_moves); 
+    changes += connect4RightDiagonal(config, board, move, score, symbol, repeated_moves); 
     // checks if the move caused 4 to be connected in this direction "/"    
 
-    changes += connect4LeftDiagonal(height, width, board, move, score, symbol, repeated_moves);
+    changes += connect4LeftDiagonal(config, board, move, score, symbol, repeated_moves);
     // checks if the move caused 4 to be connected in this direction "\"
     
     if (changes != 0 && to_undo == 1)

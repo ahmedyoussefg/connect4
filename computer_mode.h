@@ -10,6 +10,6 @@
 /// @param width  Width Of The board
 /// @param board  Game-board 2D Array
 /// @param symbol 'O'
-void computersMove(int *computer_move, unsigned long long height, unsigned long long width, char board[][width], char symbol);
+void computersMove(int *computer_move, configurations config, char board[][config.width], char symbol);
 
 #endif

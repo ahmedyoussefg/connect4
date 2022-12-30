@@ -13,7 +13,7 @@
 /// @param symbol      symbol of the player
 /// @param row         row's index of the play
 /// @return returns the changes in score "aka: score_after - score_before"
-int connect4Horizontally(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, char symbol, int row);
+int connect4Horizontally(configurations config, char board[][config.width], int move, int *score, char symbol, int row);
 
 
 /// @brief Function checks if the play connects 4 vertically and returns the changes in score "aka: score_after - score_before"
@@ -26,7 +26,7 @@ int connect4Horizontally(unsigned long long height, unsigned long long width, ch
 /// @param symbol      symbol of the player
 /// @param row         row's index of the play
 /// @return returns the changes in score "aka: score_after - score_before"
-int connect4Vertically(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, char symbol, int row);
+int connect4Vertically(configurations config, char board[][config.width], int move, int *score, char symbol, int row);
 
 /// @brief Function checks if the play connects 4 in this "/" direction and returns the changes in score "aka: score_after - score_before"
 /// @param height height of the board
@@ -38,7 +38,7 @@ int connect4Vertically(unsigned long long height, unsigned long long width, char
 /// @param symbol      symbol of the player
 /// @param row         row's index of the play
 /// @return returns the changes in score "aka: score_after - score_before"
-int connect4RightDiagonal(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, char symbol, int row);
+int connect4RightDiagonal(configurations config, char board[][config.width], int move, int *score, char symbol, int row);
 
 /// @brief Function checks if the play connects 4 in this direction "\\" and returns the changes in score "aka: score_after - score_before"
 /// @param height height of the board
@@ -50,7 +50,7 @@ int connect4RightDiagonal(unsigned long long height, unsigned long long width, c
 /// @param symbol      symbol of the player
 /// @param row         row's index of the play
 /// @return returns the changes in score "aka: score_after - score_before"
-int connect4LeftDiagonal(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, char symbol, int row);
+int connect4LeftDiagonal(configurations config, char board[][config.width], int move, int *score, char symbol, int row);
 
 /// @brief Function checks the change in score and edits the score according to the move in all directions
 /// @param height height of the board
@@ -63,6 +63,6 @@ int connect4LeftDiagonal(unsigned long long height, unsigned long long width, ch
 /// @param symbol      symbol of the player
 /// @param to_undo     if the user made undo, becomes = 1 if the user made undo
 /// @param mode the game-mode
-void isConnect4(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, int moves_stack[], int moves_count, char symbol, int to_undo, int mode);
+void isConnect4(configurations config, char board[][config.width], int move, int *score, int moves_stack[], int moves_count, char symbol, int to_undo, int mode);
 
 #endif

@@ -93,27 +93,27 @@ void underscore(unsigned long long width)
     printf("-\n");
 }
 
-void printArray(unsigned long long height, unsigned long long width, char board[][width], player p1, player p2)
+void printArray(configurations config, char board[][config.width], player p1, player p2)
 {
     print_connect_four(); // game title
     printf("\n\t\t");
     yellow_color();
-    for (int i = 1; i < width + 1; i++)
+    for (int i = 1; i < config.width + 1; i++)
     {
         printf("  %d ", i);
     }
     printf("\n");
     printf("\t\t");
-    underscore(width);
+    underscore(config.width);
     reset_color();
     SetConsoleOutputCP(CP_UTF8); // for the │ symbol
-    for (unsigned long long i = 0; i < height; i++) // for each row
+    for (unsigned long long i = 0; i < config.height; i++) // for each row
     {
         printf("\t\t");
         yellow_color();
         printf("│");
         reset_color();
-        for (unsigned long long j = 0; j < width; j++) // for each column
+        for (unsigned long long j = 0; j < config.width; j++) // for each column
         {
             if (board[i][j] == 'X')
             {
@@ -138,7 +138,7 @@ void printArray(unsigned long long height, unsigned long long width, char board[
         printf("\n");
         printf("\t\t");
         yellow_color();
-        underscore(width);
+        underscore(config.width);
         reset_color();
     }
 }

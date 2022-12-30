@@ -1,0 +1,10 @@
+1. Mahmoud: 20
+2. Ahmed: 20
+3. Ebrahim: 18
+4. Mohammmed: 17
+5. Maher: 15
+6. Mohamed: 15
+7. Jack: 10
+8. Youusef: 9
+9. Khaled: 5
+10. Omar: 1

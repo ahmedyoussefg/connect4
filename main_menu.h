@@ -14,6 +14,6 @@ void printMainMenu();
 /// @param p1     Player One
 /// @param p2     Player Two (if the user chose vs Player mode)
 /// @param computer Computer (if the user chose vs Computer Mode)
-void chooseOption(int option, unsigned long long height, unsigned long long width, char board[][width], player p1, player p2, player computer);
+void chooseOption(int option, configurations config, char board[][config.width], player p1, player p2, player computer);
 
 #endif

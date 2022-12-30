@@ -6,12 +6,12 @@ void printMainMenu()
 {
     printf("1. Start a new game\n2. Load a game\n3. Top Players\n4. Quit\n");
 }
-void chooseOption(int option, unsigned long long height, unsigned long long width, char board[][width], player p1, player p2, player computer)
+void chooseOption(int option, configurations config, char board[][config.width], player p1, player p2, player computer)
 {
     int game_mode;
     switch (option)
     {
-        case 1:
+        case 1: // start a new game
             do
             {
                 yellow_color();
@@ -21,18 +21,19 @@ void chooseOption(int option, unsigned long long height, unsigned long long widt
                 scanf("%d", &game_mode);
                 while(getc(stdin) != '\n'); // to remove the buffer
             } while(game_mode <= 0 || game_mode > 2);
-            chooseMode(game_mode, height, width, board, p1, p2, computer);
+            chooseMode(game_mode, config, board, p1, p2, computer);
             break;
-        case 2:
-
+        case 2: // load a game
+            loadGame();
             break;
-        case 3:
+        case 3: // top players
+            
             break;
         case 4:
-
+            exit(0);
             break;
         default:
-            exit(0);
+            exit(1);
             break;
     }
 }

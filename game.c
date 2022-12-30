@@ -5,10 +5,10 @@
 #include "computer_mode.h"
 #include "endgame.h"
 
-int isFull(unsigned long long height, unsigned long long width, char board[][width]) // function to check whether board is full or not, return 1 if full
+int isFull(configurations config, char board[][config.width]) // function to check whether board is full or not, return 1 if full
 {
     int counter = 0;
-    for (int j = 0; j < width; j++)
+    for (int j = 0; j < config.width; j++)
     {
         if (board[0][j] == ' ')         // if any of the top row is empty increase counter
         {
@@ -24,7 +24,7 @@ int isFull(unsigned long long height, unsigned long long width, char board[][wid
         return 0; // the board is not full
     }
 }
-int isColumnAvaliable(int move, unsigned long long height, unsigned long long width, char board[][width]) // move is the column's index
+int isColumnAvaliable(int move, configurations config, char board[][config.width]) // move is the column's index
 {
     if (move == -1) // in-game menu option
     {
@@ -43,15 +43,15 @@ int isColumnAvaliable(int move, unsigned long long height, unsigned long long wi
     }
 }
 
-void dotheMove(int move, unsigned long long height, unsigned long long width, char board[][width], char symbol, int moves_stack[width * height], int *counter, int *undo, int redos_stack[], int *count_redos , int mode)
+void dotheMove(int move, configurations config, char board[][config.width], char symbol, int moves_stack[], int *counter, int *undo, int redos_stack[], int *count_redos , int mode, player p1, player p2, player computer)
 // move is column's index, counter is for moves_stack
 {
     if (move == -1) // The player chose to access in-game menu
     {
-        inGameMenu(move, height, width, board, moves_stack, &*counter, &*undo, redos_stack, &*count_redos, mode);
+        inGameMenu(move, config, board, moves_stack, counter, undo, redos_stack, count_redos, mode, p1, p2, computer);
         return;
     }
-    for (int i = height - 1 ; i >= 0; i--)
+    for (int i = config.height - 1 ; i >= 0; i--)
     {
         // if the board place (which is the ith in the desired column) is empty, put the piece in the empty place
         if (board[i][move] == ' ')  
@@ -62,16 +62,14 @@ void dotheMove(int move, unsigned long long height, unsigned long long width, ch
     }
 }
 
-void play(unsigned long long height, unsigned long long width, char board[][width], player p1, player p2, player computer, int mode) // play
+void play(configurations config, char board[][config.width], player p1, player p2, player computer, int mode, int load, int moves_count, int moves_stack[])
+// Moves_stack -> Array has all moves "columns" of the game  (of both players) 
 {
     int move; // move of the player each turn
 
     clock_t timenow=time(NULL);// Time at the start of the game
     int hours,minutes,seconds;//  Time format variables
     
-    int moves_stack[width * height]; // Array has all moves "columns" of the game  (of both players)
-    int moves_count = 0; // number of moves
-    memset(moves_stack, -1, sizeof(moves_stack)); // Initializing the moves stack to negative ones
     int full; // variable to check if board is full or not
     int checkeven = 0; // to check if it's player's one turn or player two's turn
     
@@ -81,20 +79,20 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
     //system("cls"); // clear the commandline interface
     if (mode == 1) //player
     {
-        printArray(height, width, board, p1, p2);    // print board (empty)
+        printArray(config, board, p1, p2);    // print board (empty)
         yellow_color();
         printf("Time = 00 : 00 : 00 [HH:MM:SS]\n");
         reset_color();
     }
     else // computer
     {
-        printArray(height, width, board, p1, computer);
+        printArray(config, board, p1, computer);
         yellow_color();
         printf("Time = 00 : 00 : 00 [HH:MM:SS]\n");
         reset_color();
     }
     int undo = 0;  // check if the user made undo
-    int redos_stack[width*height]; // all undos are in the redos_stack
+    int redos_stack[config.width*config.height]; // all undos are in the redos_stack
     memset(redos_stack, -1, sizeof(redos_stack)); // set all stack to -1
     int count_redos = 0; // counter for redos
     p1.score = 0;
@@ -157,8 +155,8 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
                 reset_color();
                 while(getc(stdin) != '\n');         // remove the buffer
             
-            } while(move > width || move < 0 || (!isColumnAvaliable(move - 1, height, width, board)));
-            dotheMove(move - 1, height, width, board, symbol, moves_stack, &moves_count, &undo, redos_stack, &count_redos, mode);
+            } while(move > config.width || move < 0 || (!isColumnAvaliable(move - 1, config, board)));
+            dotheMove(move - 1, config, board, symbol, moves_stack, &moves_count, &undo, redos_stack, &count_redos, mode, p1, p2, computer);
             // (move - 1) is the chosen column's index
         }
         else
@@ -166,7 +164,7 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), computer.color);
             printf("Computer's turn..\n");
             reset_color();
-            computersMove(&computer_move_index,height, width, board, symbol);
+            computersMove(&computer_move_index, config, board, symbol);
         }
         //system("cls"); // clear the command line interface
         if (move != 0)
@@ -189,8 +187,8 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
                 redos_stack[count_redos] = moves_stack[moves_count - 1]; // push the computer's move to redos stack, after undo
                 redos_stack[++count_redos] = moves_stack[moves_count - 2]; // push player's move to redos stack after undo
                 count_redos++;
-                isConnect4(height, width, board, moves_stack[moves_count - 1], &computer.score, moves_stack, moves_count, 'O', 1, 2);
-                isConnect4(height, width, board, moves_stack[moves_count - 2], &score, moves_stack, moves_count, 'X', 1, 2);
+                isConnect4(config, board, moves_stack[moves_count - 1], &computer.score, moves_stack, moves_count, 'O', 1, 2);
+                isConnect4(config, board, moves_stack[moves_count - 2], &score, moves_stack, moves_count, 'X', 1, 2);
                 moves_stack[moves_count - 1] = -1; // pop last 2 move from the stack
                 moves_stack[moves_count - 2] = -1; 
                 moves_count -= 2; // decrease moves count by 2
@@ -200,12 +198,12 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
                 redos_stack[count_redos] = moves_stack[moves_count - 1]; // push the last undo - ed move to redos_stack
                 if (printed_number == 1)
                 {
-                    isConnect4(height, width, board, moves_stack[moves_count - 1], &p2.score, moves_stack, moves_count, 'O', 1, 1);
+                    isConnect4(config, board, moves_stack[moves_count - 1], &p2.score, moves_stack, moves_count, 'O', 1, 1);
                     // to_undo = 1
                 }
                 else if (printed_number == 2)
                 {
-                    isConnect4(height, width, board, moves_stack[moves_count - 1], &p1.score, moves_stack, moves_count, 'X', 1, 1); // to_undo = 1
+                    isConnect4(config, board, moves_stack[moves_count - 1], &p1.score, moves_stack, moves_count, 'X', 1, 1); // to_undo = 1
                 }
                 count_redos++;                                          // increase redo count by one
                 moves_count--;  // decrease move count by one
@@ -225,17 +223,17 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
             memset(redos_stack, -1, sizeof(redos_stack)); // set all stack to -1
             if (mode == 1)
             {
-                isConnect4(height, width, board, move - 1, &score, moves_stack, moves_count, symbol, 0, 1); // checks if the move caused
+                isConnect4(config, board, move - 1, &score, moves_stack, moves_count, symbol, 0, 1); // checks if the move caused
                                                                              // scoring points, then edits the score to higher value
             }
             else if (mode == 2 && printed_number == 1)
             {
-                isConnect4(height, width, board, move - 1, &score, moves_stack, moves_count, symbol, 0, 2); // checks if the move caused
+                isConnect4(config, board, move - 1, &score, moves_stack, moves_count, symbol, 0, 2); // checks if the move caused
                                                                          // scoring points, then edits the score to higher value
             }
             else if (mode == 2 && printed_number == 4)
             {
-                isConnect4(height, width, board, computer_move_index - 1, &score, moves_stack, moves_count, symbol, 0, 2);
+                isConnect4(config, board, computer_move_index - 1, &score, moves_stack, moves_count, symbol, 0, 2);
                 // checks if the move caused scoring points, then edits the score to higher value
             }
         }
@@ -243,16 +241,16 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
         {
             if (mode == 1) // player vs player
             {
-                isConnect4(height, width, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, symbol, 0, 1); 
+                isConnect4(config, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, symbol, 0, 1); 
                 // checks if the redo-ed move caused points increase
                 redos_stack[count_redos - 1] = -1;
                 count_redos--; // decrease count by one
             }
             else // computer mode
             {
-                isConnect4(height, width, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, 'X', 3, 2); 
+                isConnect4(config, board, redos_stack[count_redos - 1], &score, moves_stack, moves_count, 'X', 3, 2); 
                 // to_undo = 3 to access the player's move
-                isConnect4(height, width, board, redos_stack[count_redos - 2], &computer.score, moves_stack, moves_count, 'O', 0, 2); 
+                isConnect4(config, board, redos_stack[count_redos - 2], &computer.score, moves_stack, moves_count, 'O', 0, 2); 
                 // checks if the redo-ed move caused points increase
                 redos_stack[count_redos - 2] = -1;
                 redos_stack[count_redos - 1] = -1; // the used redos_stack element is set to -1 again
@@ -262,13 +260,13 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
         undo = 0;
         if (mode == 1) // player
         {
-            printArray(height, width, board, p1, p2);    // print board
+            printArray(config, board, p1, p2);    // print board
         }
         else // computer
         {
-            printArray(height, width, board, p1, computer);
+            printArray(config, board, p1, computer);
         }
-        full = isFull(height, width, board);
+        full = isFull(config, board);
         if (full == 1) // if board is full
         {
             break;
@@ -328,7 +326,6 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
         reset_color();
         checkeven++; // increase checkeven by one
     }
-    
     pink_color();
     printf("Time = %02d : %02d : %02d [HH:MM:SS]\n", hours, minutes, seconds); 
     reset_color();
@@ -361,69 +358,21 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
         printf("\t\t\tComputer's score = %d\n", computer.score);
     }
     reset_color();
-
-    FILE * highscores_file;
-    highscores_file = fopen("highscores.txt", "a");
-
-    if (mode == 1)
-    {
-        if (p1.score > p2.score)
-        {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);    
-            printf("Player one is the winner!\nPlease, Enter Your Name: ");
-            fgets(p1.name, 256, stdin);
-            fprintf(highscores_file, "%s %d\n", p1.name, p1.score);
-            reset_color();
-        }
-        else if (p2.score > p1.score)
-        {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p2.color);    
-            printf("Player two is the winner!\nPlease, Enter Your Name: ");
-            fgets(p2.name, 256, stdin);
-            fprintf(highscores_file, "%s %d\n", p2.name, p2.score);
-            reset_color();
-        }
-        else
-        {
-            yellow_color();
-            printf("\t\t\t\t\tDraw !\n");
-            reset_color();
-        }
-    }
-    else
-    {
-        if (p1.score > computer.score)
-        {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);    
-            printf("Player one is the winner!\nPlease, Enter Your Name: ");
-            fgets(p1.name, 256, stdin);
-            fprintf(highscores_file, "%s %d\n", p1.name, p1.score);
-            reset_color();
-        }
-        else if (p1.score == computer.score)
-        {
-            yellow_color();
-            printf("\t\t\t\t\tDraw !\n");
-            reset_color();
-        }
-        else
-        {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), computer.color);    
-            printf("\tComputer is the winner!\n");
-            reset_color();
-        }
-    }
+    declareWinner(p1, p2, computer, mode, config.highscores);
 }
 
-void chooseMode(int game_mode, unsigned long long height, unsigned long long width, char board[][width], player p1, player p2, player computer)
+void chooseMode(int game_mode, configurations config, char board[][config.width], player p1, player p2, player computer)
 {
+    int moves_stack[config.width * config.height];
+    // Moves_stack -> Array has all moves "columns" of the game  (of both players) 
+    memset(moves_stack, -1, sizeof(moves_stack)); // Initializing the moves stack to negative ones
     switch (game_mode)
     {
         case 1:
-            play(height, width, board, p1, p2, computer, 1);  // int mode = 1, = vs player mode
+            play(config, board, p1, p2, computer, 1, 0, 0, moves_stack);  // int mode = 1, = vs player mode // load = 0 // moves_count = 0
             break;
         case 2:
-            play(height, width, board, p1, p2, computer, 2); // int mode = 2, = computer mode 
+            play(config, board, p1, p2, computer, 2, 0, 0, moves_stack); // int mode = 2, = computer mode  // load = 0 // moves_count = 0
             break;
         default:
             break;

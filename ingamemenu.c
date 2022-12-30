@@ -1,4 +1,6 @@
-void undoOrRedo(int move, unsigned long long height, unsigned long long width, char board[][width], int moves_stack[width * height], int *counter, int *undo, int undo_redo, int redos_stack[], int *count_redos, int mode)
+#include "save_and_load.h"
+
+void undoOrRedo(int move, configurations config, char board[][config.width], int moves_stack[], int *counter, int *undo, int undo_redo, int redos_stack[], int *count_redos, int mode)
 // function prints the previous(by one) state of the move
 {
     int repeated_moves = 0; // variable indicates number of times the column was chosen
@@ -14,7 +16,7 @@ void undoOrRedo(int move, unsigned long long height, unsigned long long width, c
         }
         if (mode == 1)
         {
-            board[height - repeated_moves - 1][moves_stack[*counter - 1]] = ' '; // empty the last move
+            board[config.height - repeated_moves - 1][moves_stack[*counter - 1]] = ' '; // empty the last move
             *undo = 1;
         }
         else if (mode == 2)
@@ -26,8 +28,8 @@ void undoOrRedo(int move, unsigned long long height, unsigned long long width, c
                     repeated_moves2++;
                 }
             }
-            board[height - repeated_moves - 1][moves_stack[*counter - 1]] = ' '; // empty the last move
-            board[height - repeated_moves2 - 1][moves_stack[*counter - 2]] = ' '; // empty the previous move before last
+            board[config.height - repeated_moves - 1][moves_stack[*counter - 1]] = ' '; // empty the last move
+            board[config.height - repeated_moves2 - 1][moves_stack[*counter - 2]] = ' '; // empty the previous move before last
             *undo = 1;
         }
     }
@@ -65,8 +67,8 @@ void undoOrRedo(int move, unsigned long long height, unsigned long long width, c
             *undo = 2; // redo is done
             if (*counter % 2 == 0)
             {
-                board[height - repeated_moves - 1][moves_stack[*counter - 2]] = 'X';
-                board[height - repeated_moves2 - 1][moves_stack[*counter - 1]] = 'O';
+                board[config.height - repeated_moves - 1][moves_stack[*counter - 2]] = 'X';
+                board[config.height - repeated_moves2 - 1][moves_stack[*counter - 1]] = 'O';
             }
         }
         else
@@ -83,17 +85,17 @@ void undoOrRedo(int move, unsigned long long height, unsigned long long width, c
             *undo = 2; // redo is done
             if (*counter % 2 == 0)
             {
-                board[height - repeated_moves - 1][moves_stack[*counter - 1]] = 'O';
+                board[config.height - repeated_moves - 1][moves_stack[*counter - 1]] = 'O';
             }
             else
             {
-                board[height - repeated_moves - 1][moves_stack[*counter - 1]] = 'X';
+                board[config.height - repeated_moves - 1][moves_stack[*counter - 1]] = 'X';
             }
         }
     }
 }
 
-void inGameMenu(int move, unsigned long long height, unsigned long long width, char board[][width], int moves_stack[width * height], int *counter, int *undo, int redos_stack[], int *count_redos, int mode)
+void inGameMenu(int move, configurations config, char board[][config.width], int moves_stack[], int *counter, int *undo, int redos_stack[], int *count_redos, int mode, player p1, player p2, player computer)
 {
     int option2;
     int undo_redo; //  = 1 -> option undo , = 0 -> option redo
@@ -113,12 +115,13 @@ void inGameMenu(int move, unsigned long long height, unsigned long long width, c
     switch (option2)
     {
         case 1: // undo
-            undoOrRedo(move, height, width, board, moves_stack, counter, undo, 1, redos_stack, count_redos, mode); // undo_redo = 1;
+            undoOrRedo(move, config, board, moves_stack, counter, undo, 1, redos_stack, count_redos, mode); // undo_redo = 1;
             break;
         case 2: // redo
-            undoOrRedo(move, height, width, board, moves_stack, counter, undo, 0, redos_stack, count_redos, mode); // undo_redo = 0;
+            undoOrRedo(move, config, board, moves_stack, counter, undo, 0, redos_stack, count_redos, mode); // undo_redo = 0;
             break;
         case 3: // save
+            saveGame(config, board, p1, p2, computer, counter, mode, moves_stack);
             break;
         case 4: // exit
             exit(0);

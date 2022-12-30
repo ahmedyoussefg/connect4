@@ -1,0 +1,12 @@
+Jack: 10
+Mohamed: 15
+Omar: 1
+Ahmed: 20
+Youusef: 9
+Khaled: 5
+Maher: 15
+Ebrahim: 18
+Mahmoud: 20
+Ahmed: 18
+Mohammmed: 17
+JAMA: 28

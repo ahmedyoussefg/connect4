@@ -7,7 +7,7 @@
 /// @param width  The width of the board
 /// @param board  The board of the game
 /// @return Returns one if the game board is full, returns zero if the game board is not full.
-int isFull(unsigned long long height, unsigned long long width, char board[][width]);
+int isFull(configurations config, char board[][config.width]);
 
 
 /// @brief  Function to check if the column chose by the user is avaliable, if not avaliable,
@@ -17,7 +17,7 @@ int isFull(unsigned long long height, unsigned long long width, char board[][wid
 /// @param width  The width of the board
 /// @param board  The board of the game 
 /// @return Returns one if the column is avaliable, returns zero if the column is not avaliable
-int isColumnAvaliable(int move, unsigned long long height, unsigned long long width, char board[][width]);
+int isColumnAvaliable(int move, configurations config, char board[][config.width]);
 
 /// @brief        Function edits the board to the state of the board after the user puts the piece in the avaliable place
 /// @param move   The index of the column chosen by the user
@@ -31,7 +31,10 @@ int isColumnAvaliable(int move, unsigned long long height, unsigned long long wi
 /// @param redos_stack  sends the stack of redos
 /// @param count_redos  sends the count of undos in redos
 /// @param mode -> Game mode (computer/player)
-void dotheMove(int move, unsigned long long height, unsigned long long width, char board[][width], char symbol, int moves_stack[width * height], int *counter, int *undo, int redos_stack[], int *count_redos, int mode);
+/// @param p1 -> player one's attributes
+/// @param p2 -> player two's attributes
+/// @param computer -> computer's attributes
+void dotheMove(int move, configurations config, char board[][config.width], char symbol, int moves_stack[], int *counter, int *undo, int redos_stack[], int *count_redos , int mode, player p1, player p2, player computer);
 
 /// @brief        Function that deals with player's moves each turn 
 ///               and it will be branched to multiple main functions until the game ends
@@ -42,7 +45,10 @@ void dotheMove(int move, unsigned long long height, unsigned long long width, ch
 /// @param p2     Player Two (if the user chose vs Player mode)
 /// @param computer Computer (if the user chose vs Computer mode)
 /// @param mode -> Game mode = 1 if vs player ,= 2 if vs computer
-void play(unsigned long long height, unsigned long long width, char board[][width], player p1, player p2, player computer, int mode);
+/// @param load -> 1 if the user chose load game, 0 otherwise
+/// @param moves_count -> 0 if the player didn't load game, and it's initialized with a if he loaded a game.
+/// @param moves_stack -> moves stack if player loaded game
+void play(configurations config, char board[][config.width], player p1, player p2, player computer, int mode, int load, int moves_count, int moves_stack[]);
 
 
 /// @brief Function that branches the player to two functions -> playVSHuman or -> playVSComputer
@@ -54,6 +60,6 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
 /// @param p1     Player One
 /// @param p2     Player Two (if the user chose vs Player mode)
 /// @param computer Computer (if the user chose vs Computer mode)
-void chooseMode(int game_mode, unsigned long long height, unsigned long long width, char board[][width], player p1, player p2, player computer);
+void chooseMode(int game_mode, configurations config, char board[][config.width], player p1, player p2, player computer);
 
 #endif

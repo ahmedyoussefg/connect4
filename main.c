@@ -26,21 +26,8 @@ int main()
     int counter_to_default = 0;
 
     parseXML(&myconfig, &counter_to_default);       // function parses from XML
-    system("cls");
+    //system("cls");
     print_connect_four(); // prints game title
-
-    yellow_color();
-    printMainMenu();
-
-    int option; // option in main menu
-
-    do
-    {
-        printf("Enter option: ");
-        scanf("%d", &option); // scan the option
-        while(getc(stdin) != '\n');         // remove the buffer
-    } while (option <= 0 || option > 4);
-    reset_color();
 
     char board[myconfig.height][myconfig.width];
     memset(board, ' ', sizeof(board)); // initializing all elements of board to whitespace " "
@@ -62,6 +49,21 @@ int main()
     p1.symbol = 'X'; //  assumption: player 1 is X
     p2.symbol = 'O'; //              player 2 is O
     computer.symbol = 'O'; // player computer symbol is O
-    chooseOption(option, myconfig.height, myconfig.width, board, p1, p2, computer);
+    
+    yellow_color();
+    printMainMenu();
+
+    int option; // option in main menu
+
+    do
+    {
+        printf("Enter option: ");
+        scanf("%d", &option); // scan the option
+        while(getc(stdin) != '\n');         // remove the buffer
+    } while (option <= 0 || option > 4);
+    reset_color();
+
+    chooseOption(option, myconfig, board, p1, p2, computer);
+    
     return 0;
 }

@@ -62,7 +62,7 @@ int isFileCorrupt(configurations * myconfig, FILE * config_file, int *counter)
         *counter +=1;
         return 1; // Corrupted
     }
-    
+
     ptr1_width = strstr(ptr1_config + 16, "<width>"); // after the configuration opening tags
 
     ptr1_height = strstr(ptr1_config + 16, "<height>"); // after the configuration opening tags
@@ -117,7 +117,7 @@ int isFileCorrupt(configurations * myconfig, FILE * config_file, int *counter)
         *counter +=1;
         return 1;
     }
-    if (ptr2_config > ptr1_config || ptr2_height > ptr1_height || ptr2_width > ptr1_width || ptr2_highscores > ptr1_highscores)
+    if (ptr2_config < ptr1_config || ptr2_height < ptr1_height || ptr2_width < ptr1_width || ptr2_highscores < ptr1_highscores)
     {
         red_color();
         printf("File Corrupted\n");

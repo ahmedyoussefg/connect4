@@ -12,7 +12,7 @@ void underscore(unsigned long long width);
 /// @param height -> The height of the printed board
 /// @param width  -> The width of the printed board
 /// @param board -> The state of the board to be printed
-void printArray(unsigned long long height, unsigned long long width,char board[][width], player p1, player p2);
+void printArray(configurations config, char board[][config.width], player p1, player p2);
 
 /// @brief Function resets colour to default color
 void reset_color();
