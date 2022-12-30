@@ -1,4 +1,4 @@
-void undoOrRedo(int move, int height, int width, char board[][width], int moves_stack[width * height], int *counter, int *undo, int undo_redo, int redos_stack[], int *count_redos, int mode)
+void undoOrRedo(int move, unsigned long long height, unsigned long long width, char board[][width], int moves_stack[width * height], int *counter, int *undo, int undo_redo, int redos_stack[], int *count_redos, int mode)
 // function prints the previous(by one) state of the move
 {
     int repeated_moves = 0; // variable indicates number of times the column was chosen
@@ -93,7 +93,7 @@ void undoOrRedo(int move, int height, int width, char board[][width], int moves_
     }
 }
 
-void inGameMenu(int move, int height, int width, char board[][width], int moves_stack[width * height], int *counter, int *undo, int redos_stack[], int *count_redos, int mode)
+void inGameMenu(int move, unsigned long long height, unsigned long long width, char board[][width], int moves_stack[width * height], int *counter, int *undo, int redos_stack[], int *count_redos, int mode)
 {
     int option2;
     int undo_redo; //  = 1 -> option undo , = 0 -> option redo

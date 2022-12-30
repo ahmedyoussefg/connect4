@@ -78,22 +78,22 @@ void print_connect_four()
 {
     blue_color();
     printf("\t\t  C O N N E C T");
-    
+
     red_color();
     printf("   F O U R\n\n");
     reset_color();
 }
 
-void underscore(int width)
+void underscore(unsigned long long width)
 {
-    for (int i = 0; i < width; i++)
+    for (unsigned long long i = 0; i < width; i++)
     {
-        printf("----"); 
+        printf("----");
     }
     printf("-\n");
 }
 
-void printArray(int height, int width, char board[][width], player p1, player p2)
+void printArray(unsigned long long height, unsigned long long width, char board[][width], player p1, player p2)
 {
     print_connect_four(); // game title
     printf("\n\t\t");
@@ -107,17 +107,17 @@ void printArray(int height, int width, char board[][width], player p1, player p2
     underscore(width);
     reset_color();
     SetConsoleOutputCP(CP_UTF8); // for the │ symbol
-    for (int i = 0; i < height; i++) // for each row
+    for (unsigned long long i = 0; i < height; i++) // for each row
     {
         printf("\t\t");
         yellow_color();
         printf("│");
         reset_color();
-        for (int j = 0; j < width; j++) // for each column
+        for (unsigned long long j = 0; j < width; j++) // for each column
         {
             if (board[i][j] == 'X')
             {
-                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);        
+                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
                 printf(" ● ");
                 reset_color();
             }

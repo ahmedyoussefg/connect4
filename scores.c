@@ -1,4 +1,4 @@
-int connect4Horizontally(int height, int width, char board[][width], int move, int *score, char symbol, int row)
+int connect4Horizontally(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, char symbol, int row)
 {
     int counter1 = 0;
     int counter2 = 0;
@@ -35,7 +35,7 @@ int connect4Horizontally(int height, int width, char board[][width], int move, i
     return changes; // changes in score
 }
 
-int connect4Vertically(int height, int width, char board[][width], int move, int *score, char symbol, int row)
+int connect4Vertically(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, char symbol, int row)
 {
     int changes = 0;
     int counter = 0;
@@ -54,7 +54,7 @@ int connect4Vertically(int height, int width, char board[][width], int move, int
     return changes;
 }
 
-int connect4RightDiagonal(int height, int width, char board[][width], int move, int *score, char symbol, int row)
+int connect4RightDiagonal(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, char symbol, int row)
 {
     int counter1 = 0;
     int counter2 = 0;
@@ -93,7 +93,7 @@ int connect4RightDiagonal(int height, int width, char board[][width], int move, 
     return changes; // changes in score
 }
 
-int connect4LeftDiagonal(int height, int width, char board[][width], int move, int *score, char symbol, int row)
+int connect4LeftDiagonal(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, char symbol, int row)
 {
     int counter1 = 0;
     int counter2 = 0;
@@ -134,7 +134,7 @@ int connect4LeftDiagonal(int height, int width, char board[][width], int move, i
     return changes; // changes in score
 }
 
-void isConnect4(int height, int width, char board[][width], int move, int *score, int moves_stack[], int moves_count, char symbol, int to_undo, int mode)
+void isConnect4(unsigned long long height, unsigned long long width, char board[][width], int move, int *score, int moves_stack[], int moves_count, char symbol, int to_undo, int mode)
 {
     int repeated_moves = 0;
     // To get row's index

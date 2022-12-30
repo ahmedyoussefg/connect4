@@ -1,6 +1,6 @@
 #include "game.h"
 
-void computersMove(int *computer_move, int height, int width, char board[][width], char symbol)
+void computersMove(int *computer_move, unsigned long long height, unsigned long long width, char board[][width], char symbol)
 {
     do
     {

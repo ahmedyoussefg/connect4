@@ -6,7 +6,7 @@ void printMainMenu()
 {
     printf("1. Start a new game\n2. Load a game\n3. Top Players\n4. Quit\n");
 }
-void chooseOption(int option, int height, int width, char board[][width], player p1, player p2, player computer)
+void chooseOption(int option, unsigned long long height, unsigned long long width, char board[][width], player p1, player p2, player computer)
 {
     int game_mode;
     switch (option)
