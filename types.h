@@ -5,6 +5,7 @@
 ///        , symbol (he plays with), highscore(maximum score of the player), color of the player.
 typedef struct {
     char name[256];
+    char name[256];
     int score;
     int id;
     char symbol;

@@ -3,6 +3,7 @@
 #include "ingamemenu.h"
 #include "scores.h"
 #include "computer_mode.h"
+#include "endgame.h"
 
 int isFull(unsigned long long height, unsigned long long width, char board[][width]) // function to check whether board is full or not, return 1 if full
 {
@@ -77,7 +78,7 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
     char symbol; // symbol played
     int printed_number; // number printed
     
-    system("cls"); // clear the commandline interface
+    //system("cls"); // clear the commandline interface
     if (mode == 1) //player
     {
         printArray(height, width, board, p1, p2);    // print board (empty)
@@ -167,7 +168,7 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
             reset_color();
             computersMove(&computer_move_index,height, width, board, symbol);
         }
-        system("cls"); // clear the command line interface
+        //system("cls"); // clear the command line interface
         if (move != 0)
         {
             if (printed_number == 4) 
@@ -287,7 +288,7 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
         reset_color();
         if (mode == 1)
         {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p2.color);
             printf("\tNumber Of Moves Of Player Two: %d\n", moves_count / 2);
             reset_color();
         }
