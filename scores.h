@@ -21,7 +21,6 @@ int connect4Horizontally(unsigned long long height, unsigned long long width, ch
 /// @param width  width of the board
 /// @param board  the game- board 2-D array
 /// @param move   the column's index
-/// @param moves_stack the stack containing all the moves of the game
 /// @param score       the score of player
 /// @param moves_count count of moves till now
 /// @param symbol      symbol of the player
@@ -34,7 +33,6 @@ int connect4Vertically(unsigned long long height, unsigned long long width, char
 /// @param width  width of the board
 /// @param board  the game- board 2-D array
 /// @param move   the column's index
-/// @param moves_stack the stack containing all the moves of the game
 /// @param score       the score of player
 /// @param moves_count count of moves till now
 /// @param symbol      symbol of the player
@@ -47,7 +45,6 @@ int connect4RightDiagonal(unsigned long long height, unsigned long long width, c
 /// @param width  width of the board
 /// @param board  the game- board 2-D array
 /// @param move   the column's index
-/// @param moves_stack the stack containing all the moves of the game
 /// @param score       the score of player
 /// @param moves_count count of moves till now
 /// @param symbol      symbol of the player

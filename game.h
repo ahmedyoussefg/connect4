@@ -29,7 +29,8 @@ int isColumnAvaliable(int move, unsigned long long height, unsigned long long wi
 /// @param counter sends the moves count up untill that move
 /// @param undo    checks if the player made undo or not at that move, 1 if undo, 2 if redo, 3 at redo error
 /// @param redos_stack  sends the stack of redos
-/// @param count_redos  sends the count of undos in redos 
+/// @param count_redos  sends the count of undos in redos
+/// @param mode -> Game mode (computer/player)
 void dotheMove(int move, unsigned long long height, unsigned long long width, char board[][width], char symbol, int moves_stack[width * height], int *counter, int *undo, int redos_stack[], int *count_redos, int mode);
 
 /// @brief        Function that deals with player's moves each turn 
@@ -40,6 +41,7 @@ void dotheMove(int move, unsigned long long height, unsigned long long width, ch
 /// @param p1     Player One
 /// @param p2     Player Two (if the user chose vs Player mode)
 /// @param computer Computer (if the user chose vs Computer mode)
+/// @param mode -> Game mode = 1 if vs player ,= 2 if vs computer
 void play(unsigned long long height, unsigned long long width, char board[][width], player p1, player p2, player computer, int mode);
 
 

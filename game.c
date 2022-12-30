@@ -347,20 +347,6 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
         printf("\tNumber Of Moves Of Computer: : %d\n", moves_count / 2);
         reset_color();
     }
-    if (printed_number == 1)
-    {
-        // update player one's score
-        p1.score = score;
-    }
-    else if (printed_number == 2)
-    {
-        // update player two's score
-        p2.score = score;
-    }
-    else
-    {
-        computer.score = score;
-    }
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), p1.color);
     printf("Player %d's score = %d", p1.id, p1.score);
     reset_color();
@@ -423,7 +409,7 @@ void play(unsigned long long height, unsigned long long width, char board[][widt
         else
         {
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), computer.color);    
-            printf("Computer is the winner!\n");
+            printf("\tComputer is the winner!\n");
             reset_color();
         }
     }
