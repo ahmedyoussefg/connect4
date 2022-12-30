@@ -152,6 +152,8 @@ void declareWinner(player p1, player p2, player computer, int mode, unsigned lon
 {
     FILE *winners_file;
     winners_file = fopen("winners.txt", "a");
+ 
+
 
     if (mode == 1)
     {
@@ -166,6 +168,7 @@ void declareWinner(player p1, player p2, player computer, int mode, unsigned lon
                 p1.name[strlen(p1.name) - 1] = '\0';
             }
             fprintf(winners_file, "%s: %d\n", p1.name, p1.score);
+            fprintf(winners_file, "%s: %d\n", p1.name, p1.score);
         }
         else if (p2.score > p1.score)
         {
@@ -177,6 +180,7 @@ void declareWinner(player p1, player p2, player computer, int mode, unsigned lon
             {
                 p2.name[strlen(p2.name) - 1] = '\0';
             }
+            fprintf(winners_file, "%s: %d\n", p2.name, p2.score);
             fprintf(winners_file, "%s: %d\n", p2.name, p2.score);
         }
         else
