@@ -3,7 +3,7 @@
 #include "game.h"
 #include <ctype.h>
 
-void getSavedData(configurations * saved_config, int * counter, int * mode, player * p1, player * p2, player * computer, int moves_stack[], char board[][saved_config->width])
+/*void getSavedData(configurations * saved_config, int * counter, int * mode, player * p1, player * p2, player * computer, int moves_stack[], char board[][saved_config->width])
 {
     int i = 0;
     char value[100];
@@ -61,7 +61,7 @@ while (*p) { // While there are more characters to process...
             }
     }
 }
-
+*/
 void loadGame()
 {
     yellow_color();
@@ -98,12 +98,12 @@ void loadGame()
                 red_color();
                 printf("Corrupt save.. Getting Random mode..\n");
                 reset_color();
-                play(saved_config, board, p1, p2, computer, mode, 0, counter, moves_stack);
+       //         play(saved_config, board, p1, p2, computer, mode, 0, counter, moves_stack);
             }
             else
             {
-                getSavedData(&saved_config, &counter, &mode, &p1, &p2, &computer, moves_stack, board);
-                play(saved_config, board, p1,p2,computer,mode,1,counter, moves_stack);
+     //           getSavedData(&saved_config, &counter, &mode, &p1, &p2, &computer, moves_stack, board);
+   //             play(saved_config, board, p1,p2,computer,mode,1,counter, moves_stack);
             }
             break;
         case 2:

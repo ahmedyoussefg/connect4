@@ -15,6 +15,7 @@
 /// @param mode mode (vs player = 1), vs computer = 2
 void loadGame();
 
+/// @brief function gets saved data from binary file to load
 void getSavedData(configurations * saved_config, int * counter, int * mode, player * p1, player * p2, player * computer, int moves_stack[], char board[][saved_config->width]);
 
 /// @brief Function saves the current board state and moves to a binary file

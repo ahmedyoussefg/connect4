@@ -28,6 +28,8 @@ void chooseOption(int option, configurations config, char board[][config.width],
             break;
         case 3: // top players
             declareWinner(p1, p2, computer, 1, config.highscores, 0); // played = 0
+            system("PAUSE");
+
             break;
         case 4:
             exit(0);

@@ -371,6 +371,7 @@ void play(configurations config, char board[][config.width], player p1, player p
     }
     reset_color();
     declareWinner(p1, p2, computer, mode, config.highscores, 1);
+    system("PAUSE");
 }
 
 void chooseMode(int game_mode, configurations config, char board[][config.width], player p1, player p2, player computer)
