@@ -70,9 +70,18 @@ void play(configurations config, char board[][config.width], player p1, player p
     clock_t timenow=time(NULL);// Time at the start of the game
     int hours,minutes,seconds;//  Time format variables
     
-    int full; // variable to check if board is full or not
-    int checkeven = 0; // to check if it's player's one turn or player two's turn
     
+    int full; // variable to check if board is full or not
+
+    int checkeven = 0; // to check if it's player's one turn or player two's turn
+    if (load == 1 && moves_count % 2 == 0)
+    {
+        checkeven = 0;
+    }
+    else if (load == 1 && moves_count % 2 == 1)
+    {
+        checkeven = 1;
+    }
     char symbol; // symbol played
     int printed_number; // number printed
     
@@ -95,9 +104,12 @@ void play(configurations config, char board[][config.width], player p1, player p
     int redos_stack[config.width*config.height]; // all undos are in the redos_stack
     memset(redos_stack, -1, sizeof(redos_stack)); // set all stack to -1
     int count_redos = 0; // counter for redos
-    p1.score = 0;
-    p2.score = 0;
-    computer.score = 0;
+    if (load == 0)
+    {
+        p1.score = 0;
+        p2.score = 0;
+        computer.score = 0;
+    }
     int score = 0;
     int computer_move_index;
     while(full == 0)
@@ -358,7 +370,7 @@ void play(configurations config, char board[][config.width], player p1, player p
         printf("\t\t\tComputer's score = %d\n", computer.score);
     }
     reset_color();
-    declareWinner(p1, p2, computer, mode, config.highscores);
+    declareWinner(p1, p2, computer, mode, config.highscores, 1);
 }
 
 void chooseMode(int game_mode, configurations config, char board[][config.width], player p1, player p2, player computer)

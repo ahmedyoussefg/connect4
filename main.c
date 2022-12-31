@@ -26,7 +26,6 @@ int main()
     int counter_to_default = 0;
 
     parseXML(&myconfig, &counter_to_default);       // function parses from XML
-    system("cls");
     print_connect_four(); // prints game title
 
     char board[myconfig.height][myconfig.width];

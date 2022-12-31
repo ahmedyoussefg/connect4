@@ -148,13 +148,17 @@ void topPlayers(FILE *winners_file, unsigned long long highscores)
     }
 }
 
-void declareWinner(player p1, player p2, player computer, int mode, unsigned long long highscores)
+void declareWinner(player p1, player p2, player computer, int mode, unsigned long long highscores, int played)
 {
     FILE *winners_file;
     winners_file = fopen("winners.txt", "a");
  
 
-
+    if (played == 0)
+    {
+        topPlayers(winners_file, highscores);
+        return;
+    }
     if (mode == 1)
     {
         if (p1.score > p2.score)
@@ -218,5 +222,5 @@ void declareWinner(player p1, player p2, player computer, int mode, unsigned lon
         }
     }
     fclose(winners_file);
-    topPlayers(&winners_file, highscores);
+    topPlayers(winners_file, highscores);
 }

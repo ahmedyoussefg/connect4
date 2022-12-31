@@ -27,7 +27,7 @@ void chooseOption(int option, configurations config, char board[][config.width],
             loadGame();
             break;
         case 3: // top players
-            
+            declareWinner(p1, p2, computer, 1, config.highscores, 0); // played = 0
             break;
         case 4:
             exit(0);
